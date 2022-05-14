@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>vue pagenation</title>
+		<link rel="stylesheet" href="style.css" />
+		<script src="https://kit.fontawesome.com/b9f2dda8ca.js" crossorigin="anonymous"></script>
+	</head>
+	<body>
+		<div id="vueList" :class="searching ? 'loading' : ''">
+			<table class="osare4-table">
+				<thead>
+					<tr>
+						<th style="width: 100px">NO</th>
+						<th style="width: 200px">NAME</th>
+						<th style="width: 200px">ENG</th>
+					</tr>
+				</thead>
+				<tr v-for="country in countries">
+					<td>{{country.id}}</td>
+					<td><a href="detail.html">{{country.name}}</a></td>
+					<td>{{country.eng}}</td>
+				</tr>
+			</table>
+			<ol class="pagenation">
+				<li @click="setPage(1)"><i class="fas fa-angle-double-left"></i></li>
+				<li @click="setPage(page - 1)"><i class="fas fa-angle-left"></i></li>
+				<li v-for="n of totalPage" :key="n" @click="setPage(n)" class="pagenation_num" :class="n === page ? 'active' : ''">{{n}}</li>
+				<li @click="setPage(page + 1)"><i class="fas fa-angle-right"></i></li>
+				<li @click="setPage(totalPage)"><i class="fas fa-angle-double-right"></i></li>
+			</ol>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+		<script src="country.js"></script>
+		<script>
+			const PAGE_PER = 10;
+
+			new Vue({
+				el: "#vueList",
+				data: {
+					countries: [],
+					page: 1,
+					totalPage: 10,
+					searching: true,
+				},
+				mounted() {
+					const page = getParam("page");
+					if (page != null && !isNaN(page)) {
+						this.page = Number(page);
+					}
+					this.fetch();
+				},
+				watch: {
+					page() {
+						const url = new URL(location);
+						if (this.page > 1) {
+							url.searchParams.set("page", this.page);
+						} else {
+							url.searchParams.delete("page");
+						}
+						history.replaceState("", "", url.toString());
+						this.fetch();
+					},
+				},
+				methods: {
+					fetch() {
+						this.searching = true;
+						setInterval(() => {
+							let start = PAGE_PER * (this.page - 1);
+							this.countries = countries.slice(start, PAGE_PER * this.page);
+							this.searching = false;
+						}, 1000);
+					},
+					setPage(page) {
+						this.page = page;
+					},
+				},
+			});
+
+			function getParam(name, url) {
+				if (!url) url = window.location.href;
+				name = name.replace(/[\[\]]/g, "\\$&");
+				var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+					results = regex.exec(url);
+				if (!results) return null;
+				if (!results[2]) return "";
+				return decodeURIComponent(results[2].replace(/\+/g, " "));
+			}
+		</script>
+	</body>
+</html>

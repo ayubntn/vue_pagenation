@@ -1,0 +1,127 @@
+* {
+    box-sizing: border-box;
+    font-size: 12px;
+    color: #333;
+}
+
+body {
+    font-size: 12px;
+    color: #333;
+}
+
+#vueList {
+    width: 500px;
+    position: relative;
+}
+
+#vueList.loading {
+    opacity: .5;
+}
+
+#vueList.loading::before {
+    content: '\f110';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-size: 40px;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    margin-top: 80px;
+    color: #888;
+    animation: sp-anime 2.0s infinite linear;
+}
+
+@keyframes sp-anime {
+    100% { 
+      transform: rotate(360deg); 
+    }
+  }
+
+/***　おしゃれテーブル4 マゼンダカラー　***/
+.osare4-table {
+    border-collapse: separate;
+    border: none;
+    border-spacing: 0px 3px;
+    margin-bottom: 30px;
+    min-height: 200px;
+}
+
+.osare4-table td, .osare4-table th {
+    padding: 8px 5px;
+}
+
+.osare4-table tbody td,
+.osare4-table tfoot td {
+    text-align: center;
+}
+
+/* 上部ヘッダー（背景：パステルカラー） */
+.osare4-table thead th {
+    color: #FFF;
+    font-weight: bold;
+    background: #E91E63;
+}
+
+/* 上部ヘッダーの丸み */
+.osare4-table thead th:first-child {
+    border-radius: 10px 0 0 0;
+}
+
+.osare4-table thead th:last-child {
+    border-radius: 0 10px 0 0;
+}
+
+.osare4-table th,
+.osare4-table td {
+    border: 0 none !important;
+}
+
+/* １行ずつ色変更　不要なら削除 even:奇数行　odd:偶数行 */
+.osare4-table tr:nth-child(even) td {
+    background: #fff9fc;
+}
+
+.osare4-table tr:nth-child(odd) td {
+    background: #fff9ff;
+}
+
+/* ヘッダーセル先頭・ボディ項目・フッター項目 */
+.osare4-table tbody th,
+.osare4-table tfoot th {
+    background: none;
+    color: #666;
+    font-weight: bold;
+    line-height: 4.5em;
+    text-align: right;
+}
+
+.pagenation {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 500px;
+}
+
+.pagenation li {
+    margin: 0 3px 0 0;
+    padding: 10px 0;
+    flex: 1;
+    background-color: #fff9fc;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.pagenation li:hover {
+    background-color: #ffcae1;
+}
+
+.pagenation li:last-child {
+    margin-right: 0;
+}
+
+li.pagenation_num.active {
+    background: #E91E63;
+    color: #fff;
+}
